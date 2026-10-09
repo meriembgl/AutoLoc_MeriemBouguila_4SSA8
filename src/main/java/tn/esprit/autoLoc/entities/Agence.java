@@ -1,16 +1,22 @@
 package tn.esprit.autoLoc.entities;
 
-
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.AnyDiscriminatorImplicitValues;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name="Agence")
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor @ToString
+@Table(name = "Agence")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"vehicules", "employes"})
 public class Agence {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAgence;
 
     private String nom;
@@ -18,4 +24,9 @@ public class Agence {
     private String adresse;
     private String telephone;
 
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    private List<Vehicule> vehicules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    private List<Employe> employes = new ArrayList<>();
 }
